@@ -2,7 +2,7 @@
 Documentation  Suite description
 
 *** Variables ***
-${HOMEPAGE}                    http://www.google.com/
+${GOOGLE_URL}                  http://www.google.com/
 ${BROWSER}                     chrome
 ${DELAY_TIME}                  2
 ${SEARCH_INPUT_LOCATOR}        id=lst-ib
@@ -37,7 +37,10 @@ ${HELP}                        Welcome
 
 *** Keywords ***
 Setting browser
-#    Open Browser    ${HOMEPAGE}    ${BROWSER}    #<webpage> and <browser>
+#To start with google search uncomment line 42 and comment line 44 more instructions on tester.robot
+#Open Browser with google url
+#    Open Browser    ${GOOGLE_URL}    ${BROWSER}    #<webpage> and <browser>
+#Open browser with daitan url
     Open Browser    ${DAITAN_URL}    ${BROWSER}    #<webpage> and <browser>
     Set Selenium Speed    ${DELAY_TIME}    #set the delay time
     maximize browser window    #Maximize the browser window
@@ -47,8 +50,6 @@ Google and search
     input text    ${SEARCH_INPUT_LOCATOR}    ${searchkey}    #<locator/id> and <input_text>
     Press Key    ${SEARCH_INPUT_LOCATOR}    ${ENTER_KEY}    #<locator/id> and <Key> #ASCII code for enter key
     wait until page contains    ${result}
-
-Enter daitan webpage
     click link    ${DAITAN_URL}
 
 Navigation on daitan webpage

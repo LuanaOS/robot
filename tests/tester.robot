@@ -6,13 +6,11 @@ Documentation  This is some basic example on how to use robot with Selenium
 Resource  resources.robot
 
 *** Test Cases ***
-Googling Daitan Group webpage
-    [Tags]    googlensearch
-    Google and search  daitan group  www.daitangroup.com
-
-Go to daitan homepage
-    [Tags]    navdaitan
-    Enter daitan webpage
+#To start with google search uncomment from line 11-13 more instructions on resources.robot
+#Open google and search for daitan webpage
+#Googling Daitan Group webpage
+#    [Tags]    googlensearch
+#    Google and search  daitan group  www.daitangroup.com
 
 Navigate to QA
     [Tags]    qa
