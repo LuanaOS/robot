@@ -7,10 +7,21 @@ Resource  resources.robot
 
 *** Test Cases ***
 Googling Daitan Group webpage
+    [Tags]    googlensearch
     Google and search  daitan group  www.daitangroup.com
 
 Go to daitan homepage
+    [Tags]    navdaitan
     Enter daitan webpage
-    Navigation on daitan webpage    On QA
-    Navigation on daitan webpage    On Resources
-    Navigation on daitan webpage    On Contact Us
+
+Navigate to QA
+    [Tags]    qa
+    Navigation on daitan webpage    On qa
+
+Navigate to Resources
+    [Tags]    resources
+    Navigation on daitan webpage    On resources
+
+Navigate to Contact Us
+    [Tags]    contact
+    Navigation on daitan webpage    On contact us
