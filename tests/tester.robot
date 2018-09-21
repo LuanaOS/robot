@@ -3,7 +3,8 @@ Library  Selenium2Library
 Suite Setup  Setting browser
 Suite Teardown  Close All Browsers
 Documentation  This is some basic example on how to use robot with Selenium
-Resource  resources.robot
+#Resource  resources.robot
+Resource  resourcesIfs.robot
 
 *** Test Cases ***
 #To start with google search uncomment from line 11-13 more instructions on resources.robot

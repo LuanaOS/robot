@@ -54,30 +54,22 @@ Google and search
 
 Navigation on daitan webpage
     [Arguments]    ${menu_page}
-    Run Keyword    ${menu_page}
+    Run Keyword If    '${menu_page}'=='On qa'    Click on menu-hover item    ${MENU_SERVICES_LOCATOR}    ${SERVICES_QA_LOCATOR}
+    ...    ELSE IF    '${menu_page}'=='On resources'    Click on menu-hover item    ${MENU_RESOURCES_LOCATOR}    ${RESOURCES_VIDEOS_LOCATOR}
+    ...    ELSE IF    '${menu_page}'=='On contact us'    click element    ${MENU_CONTACTUS_LOCATOR}    #Click on Contact Us
+
+    Run Keyword If    '${menu_page}'=='On qa'    Page Should Contain    ${QA_TEXT}    #Check if the page contains the <text>
+    ...    ELSE IF    '${menu_page}'=='On resources'    click element    ${A_VIDEO_LOCATOR}    #Click on 2nd video
+    ...    ELSE IF    '${menu_page}'=='On contact us'   Fill form
+
+    Run Keyword If    '${menu_page}'=='On resources'    click element    ${IFRAME_VIDEO_LOCATOR}    #Click on the iframe to play the video
+    Run Keyword If    '${menu_page}'=='On resources'    sleep    ${SLEEP_TIME}
+    Run Keyword If    '${menu_page}'=='On resources'    click element    ${IFRAME_CLOSE_LOCATOR}    #Click on the x/close
 
 Click on menu-hover item
     [Arguments]    ${menu_item}    ${click_item}
     mouse over    ${menu_item}    #Mouse over ${menu_item}
     click element    ${click_item}    #Click on ${click_item}
-
-
-On qa
-    mouse over    ${MENU_SERVICES_LOCATOR}    #Mouse over on Services
-    click element    ${SERVICES_QA_LOCATOR}    #Click on QA & Testing
-    Page Should Contain    ${QA_TEXT}    #Check if the page contains the <text>
-
-On resources
-    mouse over    ${MENU_RESOURCES_LOCATOR}    #Mouse over on Resources
-    click element    ${RESOURCES_VIDEOS_LOCATOR}    #Click on Videos
-    click element    ${A_VIDEO_LOCATOR}    #Click on 2nd video
-    click element    ${IFRAME_VIDEO_LOCATOR}    #Click on the iframe to play the video
-    sleep    ${SLEEP_TIME}
-    click element    ${IFRAME_CLOSE_LOCATOR}    #Click on the x/close
-
-On contact us
-    click element    ${MENU_CONTACTUS_LOCATOR}    #Click on Contact Us
-    Run Keywords    Fill form
 
 Fill form
     click element    ${CONTACT_REQUEST_LOCATOR}    #Click on Contact Request
