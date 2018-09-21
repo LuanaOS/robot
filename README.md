@@ -59,9 +59,13 @@ $   pip install robotframework-selenium2library
 ```
 
 ## Useful source information:
+
+### Main:
 * Robot Framework: http://robotframework.org
 * Selenium Library: http://robotframework.org/SeleniumLibrary/SeleniumLibrary.html
 * BuiltIn: http://robotframework.org/robotframework/latest/libraries/BuiltIn.html
+
+### Others:
 * xpath: https://www.w3schools.com/xml/xpath_syntax.asp
 * CSS: https://www.w3schools.com/cssref/trysel.asp
 
@@ -72,18 +76,22 @@ $   export PATH="YOUR/PATH/TO/WEBDRIVER":$PATH
 ```
 where YOUR/PATH/TO/WEBDRIVER is the path to your web driver folder.
 
-###Execute all the tests
+### Execute all the tests
 To execute all the tests on the file run:
 ```
 $   pybot -d results tests/tester.robot
 ```
+PS.: **-d results** it is to indicate that the results of the tests/tester.robot will be stored in the folder ./results
+```
+$   pybot -d PATH/OF/YOUR/RESULTS PATH/OF/YOUR/TESTFILE.robot
+```  
 
 ### Execute specific test
-If you would like to run just one or another test you can use:
+If you would like to run just one or another test you can use the **-i TAG**, like the example below:
 ```
 $   pybot -d results -i TAG tests/tester.robot
 ```
-where TAG is the [Tags]'s name of the test you would like to execute.
+PS.: where TAG is the [Tags]'s name of the test you would like to execute.
 
 ## Acknowledgments
 * Robot Framework: https://github.com/robotframework/robotframework.git
