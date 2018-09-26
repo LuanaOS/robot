@@ -64,10 +64,15 @@ $   pip install robotframework-selenium2library
 * Robot Framework: http://robotframework.org
 * Selenium Library: http://robotframework.org/SeleniumLibrary/SeleniumLibrary.html
 * BuiltIn: http://robotframework.org/robotframework/latest/libraries/BuiltIn.html
+* Faker Library: https://pypi.org/project/robotframework-faker/
 
 ### Others:
 * xpath: https://www.w3schools.com/xml/xpath_syntax.asp
 * CSS: https://www.w3schools.com/cssref/trysel.asp
+
+### Acknowledgments
+* Robot Framework: https://github.com/robotframework/robotframework.git
+* Initial work tutorial: https://github.com/trucolo/robot-training
 
 ## To execute robot
 **REMEMBER** every time you restart your machine you will have to give this command:
@@ -77,22 +82,21 @@ $   export PATH="YOUR/PATH/TO/WEBDRIVER":$PATH
 where YOUR/PATH/TO/WEBDRIVER is the path to your web driver folder.
 
 ### Execute all the tests
-To execute all the tests on the file run:
-```
-$   pybot -d results tests/tester.robot
-```
-PS.: **-d results** it is to indicate that the results of the tests/tester.robot will be stored in the folder ./results
+To execute all the tests on the file, run:
 ```
 $   pybot -d PATH/OF/YOUR/RESULTS PATH/OF/YOUR/TESTFILE.robot
+```
+PS.: **-d results** it is to indicate that the results of the tests/selenium/tester.robot will be stored in the folder ./results/selenium
+```
+$   pybot -d results/selenium tests/selenium/tester.robot
 ```  
 
 ### Execute specific test
 If you would like to run just one or another test you can use the **-i TAG**, like the example below:
 ```
-$   pybot -d results -i TAG tests/tester.robot
+$   pybot -d PATH/OF/YOUR/RESULTS -i TAG PATH/OF/YOUR/TESTFILE.robot
 ```
 PS.: where TAG is the [Tags]'s name of the test you would like to execute.
-
-## Acknowledgments
-* Robot Framework: https://github.com/robotframework/robotframework.git
-* Initial work tutorial: https://github.com/trucolo/robot-training
+```
+$   pybot -d results/selenium -i resources tests/selenium/tester.robot
+```  
