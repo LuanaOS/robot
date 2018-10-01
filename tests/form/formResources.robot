@@ -2,17 +2,14 @@
 Documentation    Suite description
 
 *** Variables ***
-${FORM_URL}        https://formsmarts.com/html-form-example
-${BROWSER}         chrome
-${DELAY_TIME}      2
-${LOC_FNAME}       //input[@placeholder="Your first name"]
-${LOC_LNAME}       //input[@placeholder="Your last name"]
-${LOC_EMAIL}       //input[@placeholder="Your email address"]
-${LOC_SELECT}      //select
-#${LOC_SUBJ_INQ}    //option[text()="Select an option:"]
-${LOC_INQUIRY}     //textarea[@placeholder="Your comment"]
-${LOC_CONTINUE}    //input[@name="submit"]
-${LOC_TABLE}       //table
+${FORM_URL}         https://formsmarts.com/html-form-example
+${BROWSER}          chrome
+${DELAY_TIME}       2
+${LOCATOR_FIELDS}   //input[@placeholder="$$"]
+${LOC_SELECT}       //select
+${LOC_INQUIRY}      //textarea[@placeholder="Your comment"]
+${LOC_CONTINUE}     //input[@name="submit"]
+${LOC_TABLE}        //table
 
 *** Keywords ***
 Setting browser
@@ -21,6 +18,7 @@ Setting browser
     Maximize Browser Window
 
 FakerLibrary Words Generation
+    [Documentation]    Use the FakerLibrary to create the variables to complete the form
     ${fname}=    FakerLibrary.First Name
     ${lname}=    FakerLibrary.Last Name
 
@@ -39,16 +37,38 @@ FakerLibrary Words Generation
     Set Global Variable    ${G_INQUIRY}    ${inquiry}
 
 Fill up form
+    [Documentation]    Fill up the form and click in continue
     [Arguments]    ${firstname}    ${lastname}    ${email}    ${message}
     Select Frame    xpath=//iframe
-    Input Text    ${LOC_FNAME}    ${firstname}
-    Input Text    ${LOC_LNAME}    ${lastname}
-    Input Text    ${LOC_EMAIL}    ${email}
+
+    ${loc}=    New Locator    Your first name
+    Input Text    ${loc}    ${firstname}
+    ${loc}=    New Locator    Your last name
+    Input Text    ${loc}    ${lastname}
+    ${loc}=    New Locator    Your email address
+    Input Text    ${loc}    ${email}
+
     Input optiondata    ${LOC_SELECT}
     Input Text    ${LOC_INQUIRY}    ${message}
     Click Element    ${LOC_CONTINUE}
 
+String Replace
+    [Documentation]    Replaces the ocurrences of '$$' for the respective strings.
+    [Arguments]    ${template_string}  @{replacement_strings}
+
+    :FOR    ${string}    IN    @{replacement_strings}
+    \    ${template_string} =   Replace String    ${template_string}   $$   ${string}    count=1
+
+    [Return]    ${template_string}
+
+New Locator
+    [Documentation]    Return the new locator: e.g.: //input[@placeholder="${string}"]
+    [Arguments]  ${string}
+    ${new_locator}=   String Replace    ${LOCATOR_FIELDS}    ${string}
+    [Return]    ${new_locator}
+
 Input optiondata
+    [Documentation]    Choose random input option from the selector
     [Arguments]    ${locator}
     Click Element    ${locator}
     ${randomnumber}=    FakerLibrary.Random Int    1    3
@@ -58,6 +78,7 @@ Input optiondata
     Set Global Variable    ${G_SUBJ_INQ}    ${subj_inq}
 
 Verify data
+    [Documentation]    Verify if the data on the table is the same as the ones inputted on the form
     ${fname}=    Get Table Cell    ${LOC_TABLE}    1    2
     Should Be Equal   ${fname}    ${G_FNAME}
     ${lname}=    Get Table Cell    ${LOC_TABLE}    2    2
