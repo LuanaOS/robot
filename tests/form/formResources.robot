@@ -4,12 +4,13 @@ Documentation    Suite description
 *** Variables ***
 ${FORM_URL}         https://formsmarts.com/html-form-example
 ${BROWSER}          chrome
-${DELAY_TIME}       2
+${DELAY_TIME}       1
 ${LOCATOR_FIELDS}   //input[@placeholder="$$"]
 ${LOC_SELECT}       //select
 ${LOC_INQUIRY}      //textarea[@placeholder="Your comment"]
 ${LOC_CONTINUE}     //input[@name="submit"]
 ${LOC_TABLE}        //table
+${LOC_TABLECELL}    //tbody/tr[$$]/td[1]
 
 *** Keywords ***
 Setting browser
@@ -54,12 +55,13 @@ Fill up form
 
 String Replace
     [Documentation]    Replaces the ocurrences of '$$' for the respective strings.
-    [Arguments]    ${template_string}  @{replacement_strings}
+    [Arguments]    ${template_string}    @{replacement_string}
 
-    :FOR    ${string}    IN    @{replacement_strings}
+    :FOR    ${string}    IN    @{replacement_string}
     \    ${template_string} =   Replace String    ${template_string}   $$   ${string}    count=1
 
     [Return]    ${template_string}
+
 
 New Locator
     [Documentation]    Return the new locator: e.g.: //input[@placeholder="${string}"]
@@ -77,15 +79,29 @@ Input optiondata
     ${subj_inq}=    Get Selected List Value    ${LOC_SELECT}
     Set Global Variable    ${G_SUBJ_INQ}    ${subj_inq}
 
-Verify data
+Verify all data
     [Documentation]    Verify if the data on the table is the same as the ones inputted on the form
-    ${fname}=    Get Table Cell    ${LOC_TABLE}    1    2
-    Should Be Equal   ${fname}    ${G_FNAME}
-    ${lname}=    Get Table Cell    ${LOC_TABLE}    2    2
-    Should Be Equal   ${lname}    ${G_LNAME}
-    ${email}=    Get Table Cell    ${LOC_TABLE}    3    2
-    Should Be Equal   ${email}    ${G_EMAIL}
-    ${subj__inq}=    Get Table Cell    ${LOC_TABLE}    4    2
-    Should Be Equal   ${subj__inq}    ${G_SUBJ_INQ}
-    ${inquiry}=    Get Table Cell    ${LOC_TABLE}    5    2
-    Should Be Equal   ${inquiry}    ${G_INQUIRY}
+## TABLE WAY
+#    ${fname}=    Get Table Cell    ${LOC_TABLE}    1    2
+#    ${lname}=    Get Table Cell    ${LOC_TABLE}    2    2
+#    Should Be Equal   ${lname}    ${G_LNAME}
+#    ${email}=    Get Table Cell    ${LOC_TABLE}    3    2
+#    Should Be Equal   ${email}    ${G_EMAIL}
+#    ${subj__inq}=    Get Table Cell    ${LOC_TABLE}    4    2
+#    Should Be Equal   ${subj__inq}    ${G_SUBJ_INQ}
+#    ${inquiry}=    Get Table Cell    ${LOC_TABLE}    5    2
+#    Should Be Equal   ${inquiry}    ${G_INQUIRY}
+
+## STRING REPLACE WAY
+    Run Keyword    Verify data    ${G_FNAME}    ${LOC_TABLECELL}    1
+    Run Keyword    Verify data    ${G_LNAME}    ${LOC_TABLECELL}    2
+    Run Keyword    Verify data    ${G_EMAIL}    ${LOC_TABLECELL}    3
+    Run Keyword    Verify data    ${G_SUBJ_INQ}    ${LOC_TABLECELL}    4
+    Run Keyword    Verify data    ${G_INQUIRY}    ${LOC_TABLECELL}    5
+
+Verify data
+    [Documentation]    Verify if the data of one single field
+    [Arguments]    ${global_locator}    ${table_locator}    ${row}
+    ${locator}=    String Replace    ${table_locator}    ${row}
+    ${locator}=    Get Text   ${locator}
+    Should Be Equal    ${locator}    ${global_locator}

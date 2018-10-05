@@ -14,5 +14,5 @@ Words Generation and Fill up form
 
 Check out the information
     [Tags]    checkinfo
-    Verify data
+    Verify all data
     [Teardown]    Close Browser
