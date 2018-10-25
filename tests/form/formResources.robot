@@ -11,11 +11,12 @@ ${LOC_INQUIRY}      //textarea[@placeholder="Your comment"]
 ${LOC_CONTINUE}     //input[@name="submit"]
 ${LOC_TABLE}        //table
 ${LOC_TABLECELL}    //tbody/tr[$$]/td[1]
+#${LOC_TABLEHEADER}    //tbody/tr[$$]/th[1]
 
 *** Keywords ***
 Setting browser
     Open Browser    ${FORM_URL}    ${BROWSER}
-    Set Selenium Speed    ${DELAY_TIME}
+#    Set Selenium Speed    ${DELAY_TIME}
     Maximize Browser Window
 
 FakerLibrary Words Generation
@@ -42,11 +43,11 @@ Fill up form
     [Arguments]    ${firstname}    ${lastname}    ${email}    ${message}
     Select Frame    xpath=//iframe
 
-    ${loc}=    New Locator    Your first name
+    ${loc}=    String Replace    ${LOCATOR_FIELDS}    Your first name
     Input Text    ${loc}    ${firstname}
-    ${loc}=    New Locator    Your last name
+    ${loc}=    String Replace    ${LOCATOR_FIELDS}    Your last name
     Input Text    ${loc}    ${lastname}
-    ${loc}=    New Locator    Your email address
+    ${loc}=    String Replace    ${LOCATOR_FIELDS}    Your email address
     Input Text    ${loc}    ${email}
 
     Input optiondata    ${LOC_SELECT}
@@ -62,13 +63,6 @@ String Replace
 
     [Return]    ${template_string}
 
-
-New Locator
-    [Documentation]    Return the new locator: e.g.: //input[@placeholder="${string}"]
-    [Arguments]  ${string}
-    ${new_locator}=   String Replace    ${LOCATOR_FIELDS}    ${string}
-    [Return]    ${new_locator}
-
 Input optiondata
     [Documentation]    Choose random input option from the selector
     [Arguments]    ${locator}
@@ -81,18 +75,18 @@ Input optiondata
 
 Verify all data
     [Documentation]    Verify if the data on the table is the same as the ones inputted on the form
-## TABLE WAY
-#    ${fname}=    Get Table Cell    ${LOC_TABLE}    1    2
-#    ${lname}=    Get Table Cell    ${LOC_TABLE}    2    2
-#    Should Be Equal   ${lname}    ${G_LNAME}
-#    ${email}=    Get Table Cell    ${LOC_TABLE}    3    2
-#    Should Be Equal   ${email}    ${G_EMAIL}
-#    ${subj__inq}=    Get Table Cell    ${LOC_TABLE}    4    2
-#    Should Be Equal   ${subj__inq}    ${G_SUBJ_INQ}
-#    ${inquiry}=    Get Table Cell    ${LOC_TABLE}    5    2
-#    Should Be Equal   ${inquiry}    ${G_INQUIRY}
+    ## TABLE WAY
+    #    ${fname}=    Get Table Cell    ${LOC_TABLE}    1    2
+    #    ${lname}=    Get Table Cell    ${LOC_TABLE}    2    2
+    #    Should Be Equal   ${lname}    ${G_LNAME}
+    #    ${email}=    Get Table Cell    ${LOC_TABLE}    3    2
+    #    Should Be Equal   ${email}    ${G_EMAIL}
+    #    ${subj__inq}=    Get Table Cell    ${LOC_TABLE}    4    2
+    #    Should Be Equal   ${subj__inq}    ${G_SUBJ_INQ}
+    #    ${inquiry}=    Get Table Cell    ${LOC_TABLE}    5    2
+    #    Should Be Equal   ${inquiry}    ${G_INQUIRY}
+    ## STRING REPLACE WAY (FAZER RUN KEYWORD IF)
 
-## STRING REPLACE WAY
     Run Keyword    Verify data    ${G_FNAME}    1
     Run Keyword    Verify data    ${G_LNAME}    2
     Run Keyword    Verify data    ${G_EMAIL}    3
